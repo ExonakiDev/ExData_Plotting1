@@ -20,29 +20,38 @@ power2$Datetime<-as.POSIXct(paste(power2$Date2, power2$Time),
 # Convert Global_active_power to numeric
 power2$Globalactivepower<-as.numeric(power2$Global_active_power)
 
-# Plot intial graph
+# Parameters for plotting
+par(mfrow = c(2,2), mar = c(5, 5, 2, 4))
+
+# Plot no.1
+plot(power2$Datetime, power2$Globalactivepower, 
+         type = 'l', xlab='', 
+         ylab='Global Active Power (kilowatts)', lwd = 1)
+
+# Plot no.2
+plot(power2$Datetime, power2$Voltage, 
+     type = 'l', xlab='datetime', 
+     ylab='Voltage', lwd = 1, col='black')
+
+# Plot no.3
 plot(power2$Datetime,power2$Sub_metering_1, 
      type = 'l', col='black', 
-     xlab='', ylab='Energy sub metering')
-# Add line for Sub_metering_2
+     xlab='', ylab='Energy sub metering', xaxt="n")
 lines(power2$Datetime,power2$Sub_metering_2, 
       type = 'l', col='red')
-# Add line for Sub_metering_3
 lines(power2$Datetime,power2$Sub_metering_3, 
       type = 'l', col='blue')
-
-# Add legend to top right
-legend("topright", 
+legend("topright", bty="n",
        legend=c("Sub_metering_1", 
                 "Sub_metering_2", 
                 "Sub_metering_3"),
-        col = c("black", "red", "blue"),
-        lwd = 2
-       )
+       col = c("black", "red", "blue"),
+       lwd = 1
+)
 
-# Copy to png device
-dev.copy(png, filename="plot3.png", height = 480,
-         width = 480)
+plot(power2$Datetime, power2$Global_reactive_power,
+     col='black', type = 'l',
+     xlab = 'datetime', ylab = 'Global_reactive_power')
 
-# Close display device: png
+dev.copy(png, filename="plot4.png", height=480, width=480)
 dev.off()
